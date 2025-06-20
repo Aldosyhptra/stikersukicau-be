@@ -14,8 +14,6 @@ class GambarController extends Controller
             'kategori' => 'nullable|string|max:255',
         ]);
 
-        $path = null;
-
         if ($request->hasFile('gambar')) {
             $file = $request->file('gambar');
             $filename = time() . '_' . $file->getClientOriginalName(); 
@@ -37,6 +35,23 @@ class GambarController extends Controller
             'message' => 'Gambar berhasil disimpan',
             'data' => $gambar
         ], 201);
+    }
+
+    public function fetchAll()
+    {
+        try {
+            $gambars = Gambar::get();
+            
+            return response()->json([
+                'success' => true,
+                'data' => $gambars
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Gagal mengambil data artikel terbit'
+            ], 500);
+        }
     }
 }
 
