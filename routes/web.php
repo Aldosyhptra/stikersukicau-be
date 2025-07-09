@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Storage;
 
@@ -16,4 +17,9 @@ Route::get('/download/{filename}', function ($filename) {
     }
 
     return response()->download($path);
+});
+
+Route::get('/migrate', function () {
+    Artisan::call('migrate', ['--force' => true]);
+    return '✅ Migrasi berhasil dijalankan!';
 });
